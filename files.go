@@ -30,7 +30,6 @@ func ListPath(p string) <-chan string {
 	w := make(fileWalk)
 	go func() {
 		if err := filepath.Walk(p, w.Walk); err != nil {
-			close(w)
 			log.Fatal(err)
 		}
 		close(w)
