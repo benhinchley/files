@@ -1,0 +1,3 @@
+package: github.com/benhinchley/files
+import:
+- package: github.com/benhinchley/log
