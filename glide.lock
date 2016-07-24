@@ -1,6 +1,0 @@
-hash: 1063af753ca777062a783e52cb1700ec882ed2bb12146bc5f2185d11c67fe9bd
-updated: 2016-05-03T19:05:11.576704815+10:00
-imports:
-- name: github.com/benhinchley/log
-  version: 1e810efd3511bcd320a10a7c9d6d85890733476c
-devImports: []
