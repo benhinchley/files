@@ -1,11 +1,11 @@
 package files
 
 import (
+	"log"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
-
-	"github.com/benhinchley/log"
 )
 
 // Exists checks whether the given path exists.
@@ -30,7 +30,7 @@ func ListPath(p string) <-chan string {
 	w := make(fileWalk)
 	go func() {
 		if err := filepath.Walk(p, w.Walk); err != nil {
-			log.Fatal(err)
+			log.Printf("error: %s", err)
 		}
 		close(w)
 	}()
@@ -47,4 +47,13 @@ func (f fileWalk) Walk(path string, info os.FileInfo, err error) error {
 		f <- path
 	}
 	return nil
+}
+
+// GetHomeDir returns the path of the users home directory.
+func GetHomeDir() (string, error) {
+	usr, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return usr.HomeDir, nil
 }
