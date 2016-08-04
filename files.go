@@ -57,3 +57,17 @@ func GetHomeDir() (string, error) {
 	}
 	return usr.HomeDir, nil
 }
+
+// Move moves a file from src to dst, making any directories needed
+func Move(src, dst string) error {
+	dstDir := filepath.Dir(dst)
+	if !Exists(dstDir) {
+		if err := os.MkdirAll(dstDir, 0777); err != nil {
+			return err
+		}
+	}
+	if err := os.Rename(src, dst); err != nil {
+		return err
+	}
+	return nil
+}
