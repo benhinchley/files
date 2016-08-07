@@ -82,7 +82,9 @@ func Copy(src, dst string) error {
 			return err
 		}
 	}
-	_, err := copy(src, dst)
+	if _, err := copy(src, dst); err != nil {
+		return err
+	}
 	return nil
 }
 
