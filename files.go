@@ -1,6 +1,8 @@
 package files
 
 import (
+	"fmt"
+	"io"
 	"log"
 	"os"
 	"os/user"
@@ -70,4 +72,41 @@ func Move(src, dst string) error {
 		return err
 	}
 	return nil
+}
+
+// Copy copies a file from src to dst, making any directories needed
+func Copy(src, dst string) error {
+	dstDir := filepath.Dir(dst)
+	if !Exists(dstDir) {
+		if err := os.MkdirAll(dstDir, 0777); err != nil {
+			return err
+		}
+	}
+	_, err := copy(src, dst)
+	return nil
+}
+
+// http://stackoverflow.com/a/22259280/5995186
+func copy(src, dst string) (int64, error) {
+	srcFile, err := os.Open(src)
+	if err != nil {
+		return 0, err
+	}
+	defer srcFile.Close()
+
+	srcFileStat, err := srcFile.Stat()
+	if err != nil {
+		return 0, err
+	}
+
+	if !srcFileStat.Mode().IsRegular() {
+		return 0, fmt.Errorf("%s is not a regular file", src)
+	}
+
+	dstFile, err := os.Create(dst)
+	if err != nil {
+		return 0, err
+	}
+	defer dstFile.Close()
+	return io.Copy(dstFile, srcFile)
 }
