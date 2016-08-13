@@ -112,3 +112,20 @@ func copy(src, dst string) (int64, error) {
 	defer dstFile.Close()
 	return io.Copy(dstFile, srcFile)
 }
+
+// Symlink allows you to symlink a file/directory into a new location
+// It will create an needed directoires to complete the symlink
+func Symlink(src, dst string) error {
+	dstDir := filepath.Dir(dst)
+	if !Exists(dstDir) {
+		if err := os.MkdirAll(dstDir, 0777); err != nil {
+			return err
+		}
+	}
+
+	if err := os.symlink(s, d); err != nil {
+		return err
+	}
+
+	return nil
+}
