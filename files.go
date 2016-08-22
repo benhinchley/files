@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-// Exists checks whether the given path exists.
+// Exists checks whether the given path exists, returning a bool value.
 func Exists(p string) bool {
 	_, err := os.Stat(p)
 	if os.IsNotExist(err) {
@@ -21,8 +21,8 @@ func Exists(p string) bool {
 
 // StripRoot strips the root of the path off.
 func StripRoot(root, p string) string {
-	if !strings.HasSuffix(root, "/") {
-		root = root + "/"
+	if !strings.HasSuffix(root, filepath.Separator) {
+		root = root + filepath.Separator
 	}
 	return strings.TrimPrefix(p, root)
 }
