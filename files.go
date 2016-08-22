@@ -21,8 +21,9 @@ func Exists(p string) bool {
 
 // StripRoot strips the root of the path off.
 func StripRoot(root, p string) string {
-	if !strings.HasSuffix(root, filepath.Separator) {
-		root = root + filepath.Separator
+	sep := string(filepath.Separator)
+	if !strings.HasSuffix(root, sep) {
+		root = root + sep
 	}
 	return strings.TrimPrefix(p, root)
 }
